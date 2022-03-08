@@ -8,13 +8,6 @@
     home: "/home/{{user}}"
   become: true
 
-#- name: Update the password
-#  user:
-#    name: {{user}}
-#    password: {{ password }}
-#  become: true
-
-
 - name: Check if the user name was created
   shell: |
     cd ..
