@@ -1,0 +1,29 @@
+---
+
+- hosts: "{{target | default('delta-house')}}"
+  gather_facts: true
+  become: true
+  
+  vars_prompt:
+    - name: user
+      prompt: Enter user 
+      private: no      
+
+    - name: password
+      prompt: Enter password  
+      private: yes
+  vars:
+    user: "{{user}}"
+    password: "{{password}}"
+    ansible_become_pass: !vault |
+      $ANSIBLE_VAULT;1.2;AES256;dpupo
+      36323534326261646333383338363233616264636530396466343433333633363765373762613431
+      3931376135656366653434336538623362353262663662650a313531306564393030623964336232
+      33626635633666316564626164316430356265356162326464393762623732306430343432303265
+      6132376637376232610a613765393431393066356461326435376138383833313963323862656130
+      39383132643039353532613738346637336661396130663136333564623764633036
+
+  tasks:
+    - include_role:
+        name: user_creation
+        tasks_from: user_creation

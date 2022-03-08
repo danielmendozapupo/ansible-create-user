@@ -1,0 +1,29 @@
+---
+- name: Create the user
+  user:
+    name: "{{user}}"
+    password: "{{password | password_hash('sha512')}}"
+    group: wheel
+    createhome: yes
+    home: "/home/{{user}}"
+  become: true
+
+#- name: Update the password
+#  user:
+#    name: {{user}}
+#    password: {{ password }}
+#  become: true
+
+
+- name: Check if the user name was created
+  shell: |
+    cd ..
+    ls | grep {{user}}
+  args:
+    executable: /bin/bash
+  register: output
+
+- name: User create fails
+#  message: "{{output.stdout}} created"
+  debug:
+    msg: "user: {{output.stdout}} created"
