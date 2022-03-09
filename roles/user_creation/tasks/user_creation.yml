@@ -16,7 +16,12 @@
     executable: /bin/bash
   register: output
 
-- name: User create fails
-#  message: "{{output.stdout}} created"
+- name: User Created message
   debug:
     msg: "user: {{output.stdout}} created"
+  when: output.stdout == user
+
+- name: Check user created failed
+  debug:
+    msg: "Failed to create {{user}}"
+  when: output.stdout != user
